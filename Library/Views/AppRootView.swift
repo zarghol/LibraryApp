@@ -10,13 +10,9 @@ import SwiftUI
 struct AppRootView: View {
     var body: some View {
         NavigationView {
-            VStack {
-                Spacer()
-                Text("welcome")
-                Spacer()
-            }
-            .navigationTitle(Text("Library"))
-            .searchable(text: .constant(""))
+            HomeView()
+                .navigationTitle(Text("Library"))
+                .searchable(text: .constant(""))
         }
     }
 }
