@@ -8,8 +8,17 @@
 import SwiftUI
 
 struct FavoritesView: View {
-    @State private var books: [String] = []
-
+    @FetchRequest(
+        sortDescriptors: [
+            NSSortDescriptor(
+                keyPath: \Book.title,
+                ascending: true
+            )
+        ],
+        animation: .default
+    )
+    private var books: FetchedResults<Book>
+    
     var body: some View {
         if books.isEmpty {
             OnBoardingView()
@@ -17,8 +26,8 @@ struct FavoritesView: View {
         } else {
             List {
                 Section {
-                    ForEach(books, id: \.self) { book in
-                        Text(book)
+                    ForEach(books) { book in
+                        BookRow(book: book)
                     }
                 } header: {
                     Text("Favorites")
@@ -40,5 +49,6 @@ struct FavoritesView: View {
 struct FavoritesView_Previews: PreviewProvider {
     static var previews: some View {
         FavoritesView()
+            .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
     }
 }

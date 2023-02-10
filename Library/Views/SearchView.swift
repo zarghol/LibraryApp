@@ -6,11 +6,21 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct SearchView: View {
     @EnvironmentObject var searchEngine: SearchEngine
 
-    @State private var suggestions: [String] = []
+    @FetchRequest(
+        sortDescriptors: [
+            NSSortDescriptor(
+                keyPath: \Search.timestamp!,
+                ascending: true
+            )
+        ],
+        animation: .default
+    )
+    private var suggestions: FetchedResults<Search>
 
     var body: some View {
         List {
@@ -21,9 +31,9 @@ struct SearchView: View {
             }
             if !suggestions.isEmpty && searchEngine.results.isEmpty {
                 Section {
-                    ForEach(suggestions, id: \.self) { suggestion in
-                        Button(suggestion) {
-                            // TODO: handle suggestion
+                    ForEach(suggestions) { suggestion in
+                        Button(suggestion.query!) {
+
                         }
                     }
                 } header: {
@@ -36,6 +46,7 @@ struct SearchView: View {
             } header: {
                 Text("Results")
             }
+
         }
         .onSubmit(of: .search) {
             searchEngine.search()
