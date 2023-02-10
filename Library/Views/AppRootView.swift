@@ -8,11 +8,16 @@
 import SwiftUI
 
 struct AppRootView: View {
+    @StateObject private var searchEngine = SearchEngine()
+
     var body: some View {
         NavigationView {
             HomeView()
                 .navigationTitle(Text("Library"))
-                .searchable(text: .constant(""))
+                .searchable(text: $searchEngine.currentSearch, tokens: searchEngine.tokenBinding) { token in
+                    Label(token.author, systemImage: "person.circle")
+                }
+                .environmentObject(searchEngine)
         }
     }
 }

@@ -8,11 +8,18 @@
 import SwiftUI
 
 struct SearchView: View {
+    @EnvironmentObject var searchEngine: SearchEngine
+
     @State private var suggestions: [String] = []
 
     var body: some View {
         List {
-            if !suggestions.isEmpty {
+            if !searchEngine.currentSearch.isEmpty && searchEngine.author == nil {
+                Button("Search as author") {
+                    searchEngine.addAsAuthor()
+                }
+            }
+            if !suggestions.isEmpty && searchEngine.results.isEmpty {
                 Section {
                     ForEach(suggestions, id: \.self) { suggestion in
                         Button(suggestion) {
@@ -30,11 +37,15 @@ struct SearchView: View {
                 Text("Results")
             }
         }
+        .onSubmit(of: .search) {
+            searchEngine.search()
+        }
     }
 }
 
 struct SearchView_Previews: PreviewProvider {
     static var previews: some View {
         SearchView()
+            .environmentObject(SearchEngine())
     }
 }
