@@ -6,8 +6,9 @@
 //
 
 import Foundation
+import Dependencies
 
-protocol BookSearchService {
+protocol BookSearchService: Sendable {
 
     /// Search for books in the API.
     /// - Parameters:
@@ -15,4 +16,27 @@ protocol BookSearchService {
     ///   - author: author filter of the search
     /// - Returns: a list of book
     func search(query: String, author: String?) async throws -> [any APIBook]
+}
+
+// MARK: - Dependency Definition
+
+struct ArrayBookSearchService: BookSearchService {
+    let books: [APIBook]
+
+    func search(query: String, author: String?) async throws -> [APIBook] {
+        return books
+    }
+}
+
+private enum BookSearchServiceKey: DependencyKey {
+    static let liveValue: any BookSearchService = GoogleBookSearchService()
+    static let previewValue: any BookSearchService = ArrayBookSearchService(books: [])
+    static let testValue: any BookSearchService = ArrayBookSearchService(books: [])
+}
+
+extension DependencyValues {
+    var bookSearchService: BookSearchService {
+        get { self[BookSearchServiceKey.self] }
+        set { self[BookSearchServiceKey.self] = newValue }
+    }
 }

@@ -12,10 +12,10 @@
 		84459F012996599B009A9126 /* GoogleAPIBook.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84459F002996599B009A9126 /* GoogleAPIBook.swift */; };
 		84459F1129967543009A9126 /* SearchEngineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84459F1029967543009A9126 /* SearchEngineTests.swift */; };
 		84459F132996872A009A9126 /* GoogleAPITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84459F122996872A009A9126 /* GoogleAPITests.swift */; };
-		84459F1529968737009A9126 /* MockBookSearchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84459F1429968737009A9126 /* MockBookSearchService.swift */; };
 		84459F1729968757009A9126 /* MockAPIBook.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84459F1629968757009A9126 /* MockAPIBook.swift */; };
 		84459F1A29968C6A009A9126 /* GoogleBookSearchResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84459F1929968C6A009A9126 /* GoogleBookSearchResponse.swift */; };
 		84459F1D29968F28009A9126 /* XCTTry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84459F1C29968F28009A9126 /* XCTTry.swift */; };
+		84459F242996A695009A9126 /* Dependencies in Frameworks */ = {isa = PBXBuildFile; productRef = 84459F232996A695009A9126 /* Dependencies */; };
 		846B4A9629941ABA0055DA34 /* LibraryApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846B4A9529941ABA0055DA34 /* LibraryApp.swift */; };
 		846B4A9A29941ABB0055DA34 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 846B4A9929941ABB0055DA34 /* Assets.xcassets */; };
 		846B4A9D29941ABC0055DA34 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 846B4A9C29941ABC0055DA34 /* Preview Assets.xcassets */; };
@@ -49,7 +49,6 @@
 		84459F0729967505009A9126 /* LibraryTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LibraryTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		84459F1029967543009A9126 /* SearchEngineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchEngineTests.swift; sourceTree = "<group>"; };
 		84459F122996872A009A9126 /* GoogleAPITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleAPITests.swift; sourceTree = "<group>"; };
-		84459F1429968737009A9126 /* MockBookSearchService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockBookSearchService.swift; sourceTree = "<group>"; };
 		84459F1629968757009A9126 /* MockAPIBook.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAPIBook.swift; sourceTree = "<group>"; };
 		84459F1929968C6A009A9126 /* GoogleBookSearchResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleBookSearchResponse.swift; sourceTree = "<group>"; };
 		84459F1C29968F28009A9126 /* XCTTry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XCTTry.swift; sourceTree = "<group>"; };
@@ -82,6 +81,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84459F242996A695009A9126 /* Dependencies in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -103,7 +103,6 @@
 				84459F1B29968F20009A9126 /* Tools */,
 				84459F1029967543009A9126 /* SearchEngineTests.swift */,
 				84459F122996872A009A9126 /* GoogleAPITests.swift */,
-				84459F1429968737009A9126 /* MockBookSearchService.swift */,
 				84459F1629968757009A9126 /* MockAPIBook.swift */,
 			);
 			path = LibraryTests;
@@ -217,6 +216,9 @@
 			dependencies = (
 			);
 			name = Library;
+			packageProductDependencies = (
+				84459F232996A695009A9126 /* Dependencies */,
+			);
 			productName = Library;
 			productReference = 846B4A9229941ABA0055DA34 /* Library.app */;
 			productType = "com.apple.product-type.application";
@@ -249,6 +251,9 @@
 				Base,
 			);
 			mainGroup = 846B4A8929941ABA0055DA34;
+			packageReferences = (
+				84459F222996A695009A9126 /* XCRemoteSwiftPackageReference "swift-dependencies" */,
+			);
 			productRefGroup = 846B4A9329941ABA0055DA34 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -286,7 +291,6 @@
 				84459F1129967543009A9126 /* SearchEngineTests.swift in Sources */,
 				84459F1D29968F28009A9126 /* XCTTry.swift in Sources */,
 				84459F132996872A009A9126 /* GoogleAPITests.swift in Sources */,
-				84459F1529968737009A9126 /* MockBookSearchService.swift in Sources */,
 				84459F1729968757009A9126 /* MockAPIBook.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -564,6 +568,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		84459F222996A695009A9126 /* XCRemoteSwiftPackageReference "swift-dependencies" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-dependencies";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.1.4;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		84459F232996A695009A9126 /* Dependencies */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 84459F222996A695009A9126 /* XCRemoteSwiftPackageReference "swift-dependencies" */;
+			productName = Dependencies;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		846B4AA029941ABC0055DA34 /* Library.xcdatamodeld */ = {

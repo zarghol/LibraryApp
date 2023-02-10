@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import Dependencies
 
 /// The SearchEngine store the current search and performs actions related to the search.
 final class SearchEngine: ObservableObject {
@@ -17,7 +18,7 @@ final class SearchEngine: ObservableObject {
     @Published var author: AuthorToken?
     @Published var results: [APIBook] = []
 
-    let searchService: any BookSearchService
+    @Dependency(\.bookSearchService) var searchService
 
     /// This binding is used on the token search API in order to map the tokens to a single token storage related to the author.
     var tokenBinding: Binding<[AuthorToken]> {
@@ -26,12 +27,6 @@ final class SearchEngine: ObservableObject {
         } set: { newValue in
             self.author = newValue.first
         }
-    }
-
-    // MARK: - Initializer
-
-    init(searchService: BookSearchService = GoogleBookSearchService()) {
-        self.searchService = searchService
     }
 
     // MARK: - API

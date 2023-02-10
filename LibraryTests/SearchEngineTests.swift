@@ -7,18 +7,21 @@
 
 import XCTest
 import Combine
+import Dependencies
 
 @testable import Library
 
 final class SearchEngineTests: XCTestCase {
     func testInitialState() {
-        let searchEngine = SearchEngine(
-            searchService: MockBookSearchService(
+        let searchEngine = withDependencies {
+            $0.bookSearchService = ArrayBookSearchService(
                 books: [
                     MockAPIBook(title: "test")
                 ]
             )
-        )
+        } operation: {
+            SearchEngine()
+        }
 
         XCTAssertTrue(searchEngine.results.isEmpty)
         XCTAssertNil(searchEngine.author)
@@ -29,13 +32,17 @@ final class SearchEngineTests: XCTestCase {
 
     func testSearch() async throws {
         let book = MockAPIBook(title: "test")
-        let searchEngine = SearchEngine(
-            searchService: MockBookSearchService(
+
+        let searchEngine = withDependencies {
+            $0.bookSearchService = ArrayBookSearchService(
                 books: [
                     book
                 ]
             )
-        )
+        } operation: {
+            SearchEngine()
+        }
+
         searchEngine.search()
 
         // as the result is set in a task detached from the call of search, I can't just test synchronously.
@@ -53,11 +60,8 @@ final class SearchEngineTests: XCTestCase {
     }
 
     func testAddAsAuthor() throws {
-        let searchEngine = SearchEngine(
-            searchService: MockBookSearchService(
-                books: []
-            )
-        )
+        let searchEngine = SearchEngine()
+
         let authorName = "AuthorName"
 
         searchEngine.currentSearch = authorName
@@ -73,11 +77,7 @@ final class SearchEngineTests: XCTestCase {
     }
 
     func testRemoveTokenFromBinding() throws {
-        let searchEngine = SearchEngine(
-            searchService: MockBookSearchService(
-                books: []
-            )
-        )
+        let searchEngine = SearchEngine()
 
         searchEngine.author = AuthorToken(author: "AuthorName")
 

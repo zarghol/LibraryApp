@@ -6,11 +6,12 @@
 //
 
 import CoreData
+import Dependencies
 
 struct PersistenceController {
     static let shared = PersistenceController()
 
-    static var preview: PersistenceController = {
+    static let preview: PersistenceController = {
         let result = PersistenceController(inMemory: true)
         let viewContext = result.container.viewContext
         for _ in 0..<10 {
@@ -69,3 +70,19 @@ struct PersistenceController {
         container.viewContext.automaticallyMergesChangesFromParent = true
     }
 }
+
+// MARK: - Dependency Definition
+
+private enum PersistenceKey: DependencyKey {
+    static let liveValue = PersistenceController()
+    static let previewValue = PersistenceController.preview
+    static let testValue = PersistenceController(inMemory: true)
+}
+
+extension DependencyValues {
+    var persistence: PersistenceController {
+        get { self[PersistenceKey.self] }
+        set { self[PersistenceKey.self] = newValue }
+    }
+}
+
