@@ -17,6 +17,9 @@ struct AppRootView: View {
                 .searchable(text: $searchEngine.currentSearch, tokens: searchEngine.tokenBinding) { token in
                     Label(token.author, systemImage: "person.circle")
                 }
+                .onSubmit(of: .search) {
+                    searchEngine.search()
+                }
                 .environmentObject(searchEngine)
         }
     }

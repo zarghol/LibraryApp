@@ -42,14 +42,13 @@ struct SearchView: View {
             }
 
             Section {
-                Text("real results")
+                ForEach(searchEngine.results, id: \.id) { book in
+                    Text(book.title)
+                }
             } header: {
                 Text("Results")
             }
 
-        }
-        .onSubmit(of: .search) {
-            searchEngine.search()
         }
     }
 }
