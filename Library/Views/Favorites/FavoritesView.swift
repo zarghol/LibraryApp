@@ -20,11 +20,11 @@ struct FavoritesView: View {
     private var books: FetchedResults<Book>
 
     var body: some View {
-        if books.isEmpty {
-            OnBoardingView()
-                .padding()
-        } else {
-            ScrollView {
+        ScrollView {
+            if books.isEmpty {
+                OnBoardingView()
+                    .padding()
+            } else {
                 LazyVGrid(columns: [GridItem(), GridItem()]) {
                     Section {
                         ForEach(books) { book in
@@ -36,25 +36,16 @@ struct FavoritesView: View {
                 }
                 .padding()
             }
-            .toolbar {
-                // Filters
-                Button {
-                    // TODO: Add filters
-                } label: {
-                    Label("Filters", systemImage: "line.3.horizontal.decrease")
-                        .labelStyle(.iconOnly)
-                }
-            }
-            .navigationDestination(for: Book.self) { book in
-                BookDetailView(
-                    image: .local(book.picture!),
-                    bookIdentifier: book.identifier!,
-                    title: book.title ?? "",
-                    description: book.desc ?? "",
-                    author: book.author ?? "",
-                    shouldDismissOnDelete: true
-                )
-            }
+        }
+        .navigationDestination(for: Book.self) { book in
+            BookDetailView(
+                image: book.picture.map { .local($0) },
+                bookIdentifier: book.identifier,
+                title: book.title,
+                description: book.desc,
+                author: book.author ?? "",
+                shouldDismissOnDelete: true
+            )
         }
     }
 }

@@ -15,9 +15,9 @@ struct MockAPIBook: APIBook, Equatable {
     var title: String
     var authors: [String]
     var description: String?
-    var imageURL: URL
+    var imageURL: URL?
 
-    init(id: String = UUID().uuidString, url: URL = URL(string: "https://")!, title: String = "", authors: [String] = [], description: String? = nil, imageURL: URL = URL(string: "https://")!) {
+    init(id: String = UUID().uuidString, url: URL = URL(string: "https://")!, title: String = "", authors: [String] = [], description: String? = nil, imageURL: URL? = nil) {
         self.id = id
         self.url = url
         self.title = title

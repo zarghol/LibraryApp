@@ -20,6 +20,7 @@ protocol BookSearchService: Sendable {
 
 // MARK: - Dependency Definition
 
+/// Simple mock service containing a statkc book list.
 struct ArrayBookSearchService: BookSearchService {
     let books: [any APIBook]
 

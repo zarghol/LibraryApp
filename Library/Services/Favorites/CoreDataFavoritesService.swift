@@ -17,7 +17,7 @@ final class CoreDataFavoritesService: FavoritesService {
         newBook.identifier = book.id
         newBook.author = book.authors.first
         newBook.title = book.title
-        newBook.desc = book.description
+        newBook.desc = book.description ?? ""
         newBook.picture = pictureData
 
         try context.save()

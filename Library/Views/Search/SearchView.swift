@@ -18,7 +18,7 @@ struct SearchView: View {
         let request = Search.fetchRequest()
         request.sortDescriptors = [
             NSSortDescriptor(
-                keyPath: \Search.timestamp!,
+                keyPath: \Search.timestamp,
                 ascending: false
             )
         ]
@@ -96,7 +96,7 @@ struct SearchView: View {
             }
             .navigationDestination(for: AnyAPIBook.self) { book in
                 BookDetailView(
-                    image: .distantUrl(book.imageURL),
+                    image: book.imageURL.map { .distantUrl($0) },
                     bookIdentifier: book.id,
                     title: book.title,
                     description: book.description ?? "",

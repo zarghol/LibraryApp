@@ -24,7 +24,7 @@ enum ImageDefinition {
 }
 
 struct BookDetailView: View {
-    let image: ImageDefinition
+    let image: ImageDefinition?
     let bookIdentifier: String
     let title: String
     let description: String
@@ -37,7 +37,7 @@ struct BookDetailView: View {
     @StateObject var favoritesStore: FavoritesStore
     @State private var isBookmarked: Bool
 
-    init(image: ImageDefinition, bookIdentifier: String, title: String, description: String, author: String, shouldDismissOnDelete: Bool) {
+    init(image: ImageDefinition?, bookIdentifier: String, title: String, description: String, author: String, shouldDismissOnDelete: Bool) {
         self.image = image
         self.bookIdentifier = bookIdentifier
         self.title = title
@@ -51,16 +51,20 @@ struct BookDetailView: View {
 
     @ViewBuilder
     var imageView: some View {
-        switch image {
-        case .distantUrl(let url):
-            AsyncImage(url: url) { image in
-                image.resizable()
-            } placeholder: {
-                ProgressView()
+        if let image {
+            switch image {
+            case .distantUrl(let url):
+                AsyncImage(url: url) { image in
+                    image.resizable()
+                } placeholder: {
+                    ProgressView()
+                }
+            case .local(let data):
+                if let uiImage = UIImage(data: data) {
+                    Image(uiImage: uiImage)
+                        .resizable()
+                }
             }
-        case .local(let data):
-            Image(uiImage: UIImage(data: data)!)
-                .resizable()
         }
     }
     
@@ -108,7 +112,7 @@ struct BookDetailView: View {
                                         title: title,
                                         authors: [author],
                                         description: description,
-                                        imageURL: image.url(bookIdentifier: bookIdentifier)
+                                        imageURL: image?.url(bookIdentifier: bookIdentifier)
                                     )
                                 )
                                 isBookmarked = true

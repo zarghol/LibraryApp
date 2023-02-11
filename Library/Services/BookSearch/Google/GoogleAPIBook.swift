@@ -14,7 +14,9 @@ struct GoogleAPIBook: APIBook {
     let authors: [String]
     let description: String?
 
-    var imageURL: URL { URL(string: "http://books.google.com/books/publisher/content?id=\(id)&printsec=frontcover&img=1&zoom=1")! }
+    var imageURL: URL? {
+        URL(string: "http://books.google.com/books/publisher/content?id=\(id)&printsec=frontcover&img=1&zoom=1")
+    }
 }
 
 extension GoogleAPIBook: Decodable {
@@ -47,7 +49,6 @@ extension GoogleAPIBook: Decodable {
             self.description = ""
             self.authors = []
         }
-
     }
 }
 

@@ -23,7 +23,7 @@ struct FavoritesBookView: View {
 
             ViewThatFits(in: .horizontal) {
                 VStack(alignment: .leading) {
-                    Text(book.title ?? "")
+                    Text(book.title)
                         .foregroundColor(.primary)
                         .lineLimit(1)
                         .font(.headline)
@@ -36,7 +36,7 @@ struct FavoritesBookView: View {
                 .padding(.bottom, 22)
 
                 VStack(alignment: .leading) {
-                    Text(book.title ?? "")
+                    Text(book.title)
                         .foregroundColor(.primary)
                         .lineLimit(2)
                         .font(.headline)

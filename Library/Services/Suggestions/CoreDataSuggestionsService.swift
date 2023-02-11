@@ -10,7 +10,12 @@ import CoreData
 import Dependencies
 
 final class CoreDataSuggestionsService: SuggestionsService {
+
+    // MARK: Dependencies
+
     @Dependency(\.persistence.container.viewContext) var context
+
+    // MARK: - SuggestionsService
 
     func createSuggestion(query: String, author: String?) throws {
         let newSuggestion = Search(context: context)

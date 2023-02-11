@@ -7,11 +7,17 @@
 
 import Foundation
 
+/// Search API, calling Google api.
 struct GoogleBookSearchService: BookSearchService {
     private static let googleAPI = "https://www.googleapis.com/books/v1/volumes"
 
     private let decoder = JSONDecoder()
 
+    /// Create the url to call with a particular query and author value.
+    /// - Parameters:
+    ///   - query: The general text to search.
+    ///   - author: The content of the author part of the query.
+    /// - Returns: A well formed url pointing the the json response we want for this query.
     private func forgeURL(query: String, author: String?) throws -> URL {
         guard var components = URLComponents(string: Self.googleAPI) else {
             throw Error.unableToCreateURLComponent(Self.googleAPI)
@@ -35,8 +41,15 @@ struct GoogleBookSearchService: BookSearchService {
 
     func search(query: String, author: String?) async throws -> [any APIBook] {
         let url = try forgeURL(query: query, author: author)
-        // TODO: check response for http code
-        let (data, _) = try await URLSession.shared.data(from: url)
+        let (data, urlResponse) = try await URLSession.shared.data(from: url)
+
+        guard let httpResponse = urlResponse as? HTTPURLResponse else {
+            throw Error.invalidResponse(urlResponse)
+        }
+
+        guard 200..<300 ~= httpResponse.statusCode else {
+            throw Error.invalidResponse(urlResponse)
+        }
 
         let response = try decoder.decode(GoogleBookSearchResponse.self, from: data)
 
@@ -52,5 +65,6 @@ extension GoogleBookSearchService {
     enum Error: Swift.Error {
         case unableToCreateURLComponent(String)
         case unableToCreateURL(URLComponents)
+        case invalidResponse(URLResponse)
     }
 }

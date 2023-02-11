@@ -12,14 +12,16 @@ import Dependencies
 /// The SearchEngine store the current search and performs actions related to the search.
 final class SearchEngine: ObservableObject {
 
-    // MARK: Properties
+    // MARK: Dependencies
+
+    @Dependency(\.bookSearchService) var searchService
+    @Dependency(\.suggestionsService) var suggestionsService
+
+    // MARK: - Properties
 
     @Published var currentSearch: String = ""
     @Published var author: AuthorToken?
     @Published var results: [any APIBook] = []
-
-    @Dependency(\.bookSearchService) var searchService
-    @Dependency(\.suggestionsService) var suggestionsService
 
     /// This binding is used on the token search API in order to map the tokens to a single token storage related to the author.
     var tokenBinding: Binding<[AuthorToken]> {
@@ -38,6 +40,10 @@ final class SearchEngine: ObservableObject {
         currentSearch = ""
     }
 
+    /// Search the query composed of ``currentSearch`` and ``author`` through the API exposed in the ``searchService``.
+    ///
+    /// The method start an asynchronous process, that will be ended by updating the ``results``.
+    /// - Parameter isFromSuggestion: if `true`, doesn't add the query to the suggestions, in order to not duplicates suggestions.
     func search(isFromSuggestion: Bool) {
         Task(priority: .userInitiated) { @MainActor [weak self] in
             guard let self else { return }
@@ -48,23 +54,26 @@ final class SearchEngine: ObservableObject {
                 }
 
             } catch {
-                // TODO: better handle error ?
+                // TODO: send to a logger / firebase in order to debug if needed.
                 print("error : \(error)")
             }
         }
     }
 
+    /// Replace the current query by a suggestion and immediately search it.
     func apply(_ suggestion: Search) {
-        self.currentSearch = suggestion.query ?? ""
+        self.currentSearch = suggestion.query
         self.author = suggestion.author.map(AuthorToken.init(author:))
 
         self.search(isFromSuggestion: true)
     }
 
+    /// Invalidate the current content of ``results``. Useful when after a search, the result is displayed and we want to do another search. The results is no longer pertinent and thus, removed.
     func invalidateResults() {
         results = []
     }
 
+    /// Clear the content of the suggestions list.
     func clearSuggestions() {
         do {
             try suggestionsService.removeAll()

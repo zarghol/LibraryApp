@@ -16,7 +16,7 @@ final class MockFavoritesService: FavoritesService {
     var removedIdentifier: String?
     var fetchedIdentifier: String?
 
-    func createFavorite(book: APIBook, pictureData: Data?) throws {
+    func createFavorite(book: any APIBook, pictureData: Data?) throws {
         // Nothing to do
         createdBook = book as? MockAPIBook
         createdWithPicture = pictureData != nil
