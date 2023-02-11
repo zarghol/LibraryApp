@@ -15,7 +15,10 @@
 		84459F1729968757009A9126 /* MockAPIBook.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84459F1629968757009A9126 /* MockAPIBook.swift */; };
 		84459F1A29968C6A009A9126 /* GoogleBookSearchResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84459F1929968C6A009A9126 /* GoogleBookSearchResponse.swift */; };
 		84459F1D29968F28009A9126 /* XCTTry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84459F1C29968F28009A9126 /* XCTTry.swift */; };
+		84459F1F299692C4009A9126 /* SuggestionsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84459F1E299692C4009A9126 /* SuggestionsService.swift */; };
+		84459F212996988C009A9126 /* CoreDataSuggestionsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84459F202996988C009A9126 /* CoreDataSuggestionsService.swift */; };
 		84459F242996A695009A9126 /* Dependencies in Frameworks */ = {isa = PBXBuildFile; productRef = 84459F232996A695009A9126 /* Dependencies */; };
+		84459F26299709B1009A9126 /* CoreDataSuggestionsServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84459F25299709B1009A9126 /* CoreDataSuggestionsServiceTests.swift */; };
 		846B4A9629941ABA0055DA34 /* LibraryApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846B4A9529941ABA0055DA34 /* LibraryApp.swift */; };
 		846B4A9A29941ABB0055DA34 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 846B4A9929941ABB0055DA34 /* Assets.xcassets */; };
 		846B4A9D29941ABC0055DA34 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 846B4A9C29941ABC0055DA34 /* Preview Assets.xcassets */; };
@@ -52,6 +55,9 @@
 		84459F1629968757009A9126 /* MockAPIBook.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAPIBook.swift; sourceTree = "<group>"; };
 		84459F1929968C6A009A9126 /* GoogleBookSearchResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleBookSearchResponse.swift; sourceTree = "<group>"; };
 		84459F1C29968F28009A9126 /* XCTTry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XCTTry.swift; sourceTree = "<group>"; };
+		84459F1E299692C4009A9126 /* SuggestionsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestionsService.swift; sourceTree = "<group>"; };
+		84459F202996988C009A9126 /* CoreDataSuggestionsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataSuggestionsService.swift; sourceTree = "<group>"; };
+		84459F25299709B1009A9126 /* CoreDataSuggestionsServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataSuggestionsServiceTests.swift; sourceTree = "<group>"; };
 		846B4A9229941ABA0055DA34 /* Library.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Library.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		846B4A9529941ABA0055DA34 /* LibraryApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryApp.swift; sourceTree = "<group>"; };
 		846B4A9929941ABB0055DA34 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -93,6 +99,8 @@
 			children = (
 				84459F1829968C5F009A9126 /* Google */,
 				846B4ABD299650C70055DA34 /* BookSearchService.swift */,
+				84459F1E299692C4009A9126 /* SuggestionsService.swift */,
+				84459F202996988C009A9126 /* CoreDataSuggestionsService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -103,6 +111,7 @@
 				84459F1B29968F20009A9126 /* Tools */,
 				84459F1029967543009A9126 /* SearchEngineTests.swift */,
 				84459F122996872A009A9126 /* GoogleAPITests.swift */,
+				84459F25299709B1009A9126 /* CoreDataSuggestionsServiceTests.swift */,
 				84459F1629968757009A9126 /* MockAPIBook.swift */,
 			);
 			path = LibraryTests;
@@ -291,6 +300,7 @@
 				84459F1129967543009A9126 /* SearchEngineTests.swift in Sources */,
 				84459F1D29968F28009A9126 /* XCTTry.swift in Sources */,
 				84459F132996872A009A9126 /* GoogleAPITests.swift in Sources */,
+				84459F26299709B1009A9126 /* CoreDataSuggestionsServiceTests.swift in Sources */,
 				84459F1729968757009A9126 /* MockAPIBook.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -308,6 +318,8 @@
 				84459F1A29968C6A009A9126 /* GoogleBookSearchResponse.swift in Sources */,
 				846B4ABC299644380055DA34 /* AuthorToken.swift in Sources */,
 				84459F012996599B009A9126 /* GoogleAPIBook.swift in Sources */,
+				84459F1F299692C4009A9126 /* SuggestionsService.swift in Sources */,
+				84459F212996988C009A9126 /* CoreDataSuggestionsService.swift in Sources */,
 				846B4AB12995935C0055DA34 /* BookRow.swift in Sources */,
 				846B4AAD2995571D0055DA34 /* HomeView.swift in Sources */,
 				846B4ABA29963FD60055DA34 /* SearchEngine.swift in Sources */,

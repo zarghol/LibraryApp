@@ -19,6 +19,7 @@ final class SearchEngine: ObservableObject {
     @Published var results: [APIBook] = []
 
     @Dependency(\.bookSearchService) var searchService
+    @Dependency(\.suggestionsService) var suggestionsService
 
     /// This binding is used on the token search API in order to map the tokens to a single token storage related to the author.
     var tokenBinding: Binding<[AuthorToken]> {
@@ -38,16 +39,26 @@ final class SearchEngine: ObservableObject {
     }
 
     func search() {
-        // TODO: Create suggestion in database
-
-        Task(priority: .userInitiated) { @MainActor in
+        Task(priority: .userInitiated) { @MainActor [weak self] in
+            guard let self else { return }
             do {
-                self.results = try await searchService.search(query: currentSearch, author: author?.author)
+                self.results = try await self.searchService.search(query: self.currentSearch, author: self.author?.author)
+                try self.suggestionsService.createSuggestion(query: self.currentSearch, author: self.author?.author)
             } catch {
+                // TODO: better handle error ?
                 print("error : \(error)")
             }
-
         }
+    }
 
+    func apply(_ suggestion: Search) {
+        self.currentSearch = suggestion.query ?? ""
+        self.author = suggestion.author.map(AuthorToken.init(author:))
+
+        self.search()
+    }
+
+    func invalidateResults() {
+        results = []
     }
 }

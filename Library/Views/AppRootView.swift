@@ -20,6 +20,9 @@ struct AppRootView: View {
                 .onSubmit(of: .search) {
                     searchEngine.search()
                 }
+                .onChange(of: searchEngine.currentSearch, perform: { newValue in
+                    searchEngine.invalidateResults()
+                })
                 .environmentObject(searchEngine)
         }
     }

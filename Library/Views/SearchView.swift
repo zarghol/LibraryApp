@@ -11,16 +11,21 @@ import CoreData
 struct SearchView: View {
     @EnvironmentObject var searchEngine: SearchEngine
 
-    @FetchRequest(
-        sortDescriptors: [
+    @FetchRequest
+    private var suggestions: FetchedResults<Search>
+
+    init() {
+        let request = Search.fetchRequest()
+        request.sortDescriptors = [
             NSSortDescriptor(
                 keyPath: \Search.timestamp!,
                 ascending: true
             )
-        ],
-        animation: .default
-    )
-    private var suggestions: FetchedResults<Search>
+        ]
+        request.fetchLimit = 5
+
+        _suggestions = FetchRequest(fetchRequest: request)
+    }
 
     var body: some View {
         List {
@@ -32,9 +37,22 @@ struct SearchView: View {
             if !suggestions.isEmpty && searchEngine.results.isEmpty {
                 Section {
                     ForEach(suggestions) { suggestion in
-                        Button(suggestion.query!) {
+                        Button(action: {
+                            searchEngine.apply(suggestion)
+                        }, label: {
+                            VStack(alignment: .leading) {
+                                if let query = suggestion.query {
+                                    Text(query)
+                                        .font(.body)
+                                }
 
-                        }
+                                if let author = suggestion.author {
+                                    Text(author)
+                                        .font(.callout)
+                                        .foregroundColor(.secondary)
+                                }
+                            }
+                        })
                     }
                 } header: {
                     Text("Suggestions")
@@ -48,7 +66,6 @@ struct SearchView: View {
             } header: {
                 Text("Results")
             }
-
         }
     }
 }
