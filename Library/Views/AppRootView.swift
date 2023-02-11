@@ -18,7 +18,7 @@ struct AppRootView: View {
                     Label(token.author, systemImage: "person.circle")
                 }
                 .onSubmit(of: .search) {
-                    searchEngine.search()
+                    searchEngine.search(isFromSuggestion: false)
                 }
                 .onChange(of: searchEngine.currentSearch, perform: { newValue in
                     searchEngine.invalidateResults()

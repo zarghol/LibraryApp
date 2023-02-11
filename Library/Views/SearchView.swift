@@ -19,7 +19,7 @@ struct SearchView: View {
         request.sortDescriptors = [
             NSSortDescriptor(
                 keyPath: \Search.timestamp!,
-                ascending: true
+                ascending: false
             )
         ]
         request.fetchLimit = 5
@@ -28,45 +28,62 @@ struct SearchView: View {
     }
 
     var body: some View {
-        List {
-            if !searchEngine.currentSearch.isEmpty && searchEngine.author == nil {
-                Button("Search as author") {
-                    searchEngine.addAsAuthor()
-                }
-            }
-            if !suggestions.isEmpty && searchEngine.results.isEmpty {
-                Section {
-                    ForEach(suggestions) { suggestion in
-                        Button(action: {
-                            searchEngine.apply(suggestion)
-                        }, label: {
-                            VStack(alignment: .leading) {
-                                if let query = suggestion.query {
-                                    Text(query)
-                                        .font(.body)
-                                }
-
-                                if let author = suggestion.author {
-                                    Text(author)
-                                        .font(.callout)
-                                        .foregroundColor(.secondary)
-                                }
-                            }
-                        })
+        if searchEngine.results.isEmpty {
+            List {
+                if !searchEngine.currentSearch.isEmpty && searchEngine.author == nil {
+                    Button("Search as author") {
+                        searchEngine.addAsAuthor()
                     }
-                } header: {
-                    Text("Suggestions")
+                }
+                if !suggestions.isEmpty {
+                    Section {
+                        ForEach(suggestions) { suggestion in
+                            Button(action: {
+                                searchEngine.apply(suggestion)
+                            }, label: {
+                                VStack(alignment: .leading) {
+                                    if let query = suggestion.query {
+                                        Text(query)
+                                            .font(.body)
+                                    }
+
+                                    if let author = suggestion.author {
+                                        Text(author)
+                                            .font(.callout)
+                                            .foregroundColor(.secondary)
+                                    }
+                                }
+                            })
+                        }
+                    } header: {
+                        Text("Suggestions")
+                    }
                 }
             }
+        } else {
+            ScrollView {
+                LazyVGrid(columns: [GridItem()]) {
+                    Section {
+                        ForEach(searchEngine.results, id: \.id) { book in
+                            SearchResultBookView(
+                                title: book.title,
+                                author: book.authors.first ?? "",
+                                description: book.description ?? "",
+                                imageUrl: book.imageURL
+                            )
+                        }
+                    } header: {
+                        HStack {
+                            Text("\(searchEngine.results.count) results")
+                        }
+                        .font(.footnote.bold().uppercaseSmallCaps())
 
-            Section {
-                ForEach(searchEngine.results, id: \.id) { book in
-                    Text(book.title)
+                    }
                 }
-            } header: {
-                Text("Results")
+                .padding()
             }
         }
+
     }
 }
 

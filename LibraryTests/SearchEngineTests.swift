@@ -43,7 +43,7 @@ final class SearchEngineTests: XCTestCase {
             SearchEngine()
         }
 
-        searchEngine.search()
+        searchEngine.search(isFromSuggestion: true)
 
         // as the result is set in a task detached from the call of search, I can't just test synchronously.
         // I could put the search method async, but it doesn't seems to be the good approach since I only need it for the test.

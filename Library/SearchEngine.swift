@@ -38,12 +38,15 @@ final class SearchEngine: ObservableObject {
         currentSearch = ""
     }
 
-    func search() {
+    func search(isFromSuggestion: Bool) {
         Task(priority: .userInitiated) { @MainActor [weak self] in
             guard let self else { return }
             do {
                 self.results = try await self.searchService.search(query: self.currentSearch, author: self.author?.author)
-                try self.suggestionsService.createSuggestion(query: self.currentSearch, author: self.author?.author)
+                if !isFromSuggestion {
+                    try self.suggestionsService.createSuggestion(query: self.currentSearch, author: self.author?.author)
+                }
+
             } catch {
                 // TODO: better handle error ?
                 print("error : \(error)")
@@ -55,7 +58,7 @@ final class SearchEngine: ObservableObject {
         self.currentSearch = suggestion.query ?? ""
         self.author = suggestion.author.map(AuthorToken.init(author:))
 
-        self.search()
+        self.search(isFromSuggestion: true)
     }
 
     func invalidateResults() {
