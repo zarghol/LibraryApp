@@ -9,7 +9,7 @@ import Foundation
 import Dependencies
 
 protocol FavoritesService: Sendable {
-    func createFavorite(book: APIBook, pictureData: Data?) throws
+    func createFavorite(book: any APIBook, pictureData: Data?) throws
 
     func removeFavorite(bookIdentifier: String) throws
 
@@ -19,7 +19,7 @@ protocol FavoritesService: Sendable {
 // MARK: - Dependency Definition
 
 struct MockFavoritesService: FavoritesService {
-    func createFavorite(book: APIBook, pictureData: Data?) throws {
+    func createFavorite(book: any APIBook, pictureData: Data?) throws {
         // Nothing to do
     }
 

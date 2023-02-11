@@ -16,7 +16,7 @@ final class SearchEngine: ObservableObject {
 
     @Published var currentSearch: String = ""
     @Published var author: AuthorToken?
-    @Published var results: [APIBook] = []
+    @Published var results: [any APIBook] = []
 
     @Dependency(\.bookSearchService) var searchService
     @Dependency(\.suggestionsService) var suggestionsService

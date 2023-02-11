@@ -53,12 +53,14 @@ struct BookDetailView: View {
                     .font(.subheadline)
                     .foregroundColor(.secondary)
 
-                Text(description)
-                    .padding()
-                    .background {
-                        RoundedRectangle(cornerRadius: 8)
-                            .foregroundColor(Color(uiColor: UIColor.systemGroupedBackground))
-                    }
+                if !description.isEmpty {
+                    Text(description)
+                        .padding()
+                        .background {
+                            RoundedRectangle(cornerRadius: 8)
+                                .foregroundColor(Color(uiColor: UIColor.systemGroupedBackground))
+                        }
+                }
             }
             .padding()
         }

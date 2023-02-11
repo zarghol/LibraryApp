@@ -12,7 +12,7 @@ import Dependencies
 final class CoreDataFavoritesService: FavoritesService {
     @Dependency(\.persistence.container.viewContext) var context
 
-    func createFavorite(book: APIBook, pictureData: Data?) throws {
+    func createFavorite(book: any APIBook, pictureData: Data?) throws {
         let newBook = Book(context: context)
         newBook.identifier = book.id
         newBook.author = book.authors.first

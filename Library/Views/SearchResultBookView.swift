@@ -9,13 +9,13 @@ import SwiftUI
 import Dependencies
 
 struct SearchResultBookView: View {
-    let book: APIBook
+    let book: any APIBook
 
     @StateObject var favoritesStore: FavoritesStore
 
     @State private var isBookmarked: Bool
 
-    init(book: APIBook) {
+    init(book: any APIBook) {
         self.book = book
         let store = FavoritesStore()
         self._favoritesStore = StateObject(wrappedValue: store)
@@ -61,8 +61,6 @@ struct SearchResultBookView: View {
                     } label: {
                         Image(systemName: isBookmarked ? "bookmark.circle.fill" :  "bookmark.circle")
                             .resizable()
-                            .renderingMode(.original)
-                            .foregroundColor(.white)
                     }
                     .frame(width: 30, height: 30)
                     .padding([.top, .trailing], 8)
@@ -73,6 +71,7 @@ struct SearchResultBookView: View {
                 HStack {
                     Text(book.title)
                         .font(.headline)
+                        .foregroundColor(.primary)
 
                     Spacer()
 
@@ -86,6 +85,7 @@ struct SearchResultBookView: View {
                         Text(book.title)
                             .lineLimit(1)
                             .font(.headline)
+                            .foregroundColor(.primary)
 
                         Text(book.authors.first ?? "")
                             .lineLimit(1)
@@ -99,11 +99,14 @@ struct SearchResultBookView: View {
                 Text(book.title)
                     .lineLimit(1)
                     .font(.headline)
+                    .foregroundColor(.primary)
             }
 
             if let description = book.description {
                 Text(description)
                     .lineLimit(5)
+                    .multilineTextAlignment(.leading)
+                    .foregroundColor(.primary)
             }
         }
     }

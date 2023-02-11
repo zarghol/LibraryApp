@@ -45,6 +45,7 @@ struct SearchView: View {
                                     if let query = suggestion.query {
                                         Text(query)
                                             .font(.body)
+                                            .foregroundColor(.primary)
                                     }
 
                                     if let author = suggestion.author {
@@ -65,7 +66,9 @@ struct SearchView: View {
                 LazyVGrid(columns: [GridItem()]) {
                     Section {
                         ForEach(searchEngine.results, id: \.id) { book in
-                            SearchResultBookView(book: book)
+                            NavigationLink(value: AnyAPIBook(wrapped: book)) {
+                                SearchResultBookView(book: book)
+                            }
                         }
                     } header: {
                         HStack {
@@ -77,8 +80,16 @@ struct SearchView: View {
                 }
                 .padding()
             }
+            .navigationDestination(for: AnyAPIBook.self) { book in
+                BookDetailView(
+                    image: .distantUrl(book.imageURL),
+                    bookIdentifier: book.id,
+                    title: book.title,
+                    description: book.description ?? "",
+                    author: book.authors.first ?? ""
+                )
+            }
         }
-
     }
 }
 

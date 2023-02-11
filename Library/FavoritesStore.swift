@@ -11,7 +11,7 @@ import Dependencies
 final class FavoritesStore: ObservableObject {
     @Dependency(\.favoritesService) var favoritesService
 
-    func addFavorite(book: APIBook) async throws {
+    func addFavorite(book: any APIBook) async throws {
         let (data, _) = try await URLSession.shared.data(from: book.imageURL)
 
         try favoritesService.createFavorite(book: book, pictureData: data)

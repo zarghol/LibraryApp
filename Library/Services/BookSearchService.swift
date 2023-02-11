@@ -21,9 +21,9 @@ protocol BookSearchService: Sendable {
 // MARK: - Dependency Definition
 
 struct ArrayBookSearchService: BookSearchService {
-    let books: [APIBook]
+    let books: [any APIBook]
 
-    func search(query: String, author: String?) async throws -> [APIBook] {
+    func search(query: String, author: String?) async throws -> [any APIBook] {
         return books
     }
 }
