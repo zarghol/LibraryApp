@@ -3,6 +3,7 @@
     <entity name="Book" representedClassName="Book" syncable="YES" codeGenerationType="class">
         <attribute name="author" attributeType="String"/>
         <attribute name="desc" attributeType="String"/>
+        <attribute name="identifier" attributeType="String"/>
         <attribute name="picture" optional="YES" attributeType="Binary"/>
         <attribute name="title" attributeType="String"/>
     </entity>
