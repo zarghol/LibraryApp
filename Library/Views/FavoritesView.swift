@@ -24,14 +24,15 @@ struct FavoritesView: View {
             OnBoardingView()
                 .padding()
         } else {
-            List {
-                Section {
-                    ForEach(books) { book in
-                        BookRow(book: book)
+            ScrollView {
+                LazyVGrid(columns: [GridItem(), GridItem()]) {
+                    Section {
+                        ForEach(books) { book in
+                            FavoritesBookView(book: book)
+                        }
                     }
-                } header: {
-                    Text("Favorites")
                 }
+                .padding()
             }
             .toolbar {
                 // Filters
