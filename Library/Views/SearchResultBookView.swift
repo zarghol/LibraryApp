@@ -6,19 +6,26 @@
 //
 
 import SwiftUI
+import Dependencies
 
 struct SearchResultBookView: View {
-    let title: String
-    let author: String
-    let description: String
-    let imageUrl: URL
+    let book: APIBook
 
-    @State private var isBookmarked = false
+    @StateObject var favoritesStore: FavoritesStore
+
+    @State private var isBookmarked: Bool
+
+    init(book: APIBook) {
+        self.book = book
+        let store = FavoritesStore()
+        self._favoritesStore = StateObject(wrappedValue: store)
+        self._isBookmarked = State(initialValue: store.isFavorite(bookIdentifier: book.id))
+    }
 
     var body: some View {
         VStack {
             ZStack(alignment: .top) {
-                AsyncImage(url: imageUrl) { image in
+                AsyncImage(url: book.imageURL) { image in
                     image.resizable()
                         .scaledToFit()
                 } placeholder: {
@@ -38,7 +45,19 @@ struct SearchResultBookView: View {
                     Spacer()
 
                     Button {
-                        isBookmarked.toggle()
+                        do {
+                            if isBookmarked {
+                                try favoritesStore.removeFavorite(bookIdentifier: book.id)
+                                isBookmarked = false
+                            } else {
+                                Task {
+                                    try await favoritesStore.addFavorite(book: book)
+                                    isBookmarked = true
+                                }
+                            }
+                        } catch {
+                            print("error : \(error)")
+                        }
                     } label: {
                         Image(systemName: isBookmarked ? "bookmark.circle.fill" :  "bookmark.circle")
                             .resizable()
@@ -52,23 +71,23 @@ struct SearchResultBookView: View {
 
             ViewThatFits(in: .horizontal) {
                 HStack {
-                    Text(title)
+                    Text(book.title)
                         .font(.headline)
 
                     Spacer()
 
-                    Text(author)
+                    Text(book.authors.first ?? "")
                         .font(.subheadline)
                         .foregroundColor(.secondary)
                 }
 
                 HStack {
                     VStack(alignment: .leading) {
-                        Text(title)
+                        Text(book.title)
                             .lineLimit(1)
                             .font(.headline)
 
-                        Text(author)
+                        Text(book.authors.first ?? "")
                             .lineLimit(1)
                             .font(.subheadline)
                             .foregroundColor(.secondary)
@@ -77,16 +96,15 @@ struct SearchResultBookView: View {
                     Spacer()
                 }
 
-                Text(title)
+                Text(book.title)
                     .lineLimit(1)
                     .font(.headline)
             }
 
-
-
-            Text(description)
-                .lineLimit(5)
-
+            if let description = book.description {
+                Text(description)
+                    .lineLimit(5)
+            }
         }
     }
 }
@@ -94,10 +112,13 @@ struct SearchResultBookView: View {
 struct BookView_Previews: PreviewProvider {
     static var previews: some View {
         SearchResultBookView(
-            title: "Le couteau aveuglant",
-            author: "",
-            description: "",
-            imageUrl: URL(string: "https://books.google.com/books/publisher/content?id=dRKHAQAAQBAJ&printsec=frontcover&img=1&zoom=1")!
+            book: GoogleAPIBook(
+                id: UUID().uuidString,
+                url: URL(string: "https://")!,
+                title: "Porteur",
+                authors: ["Brent Weeks"],
+                description: "Test"
+            )
         )
     }
 }

@@ -65,12 +65,7 @@ struct SearchView: View {
                 LazyVGrid(columns: [GridItem()]) {
                     Section {
                         ForEach(searchEngine.results, id: \.id) { book in
-                            SearchResultBookView(
-                                title: book.title,
-                                author: book.authors.first ?? "",
-                                description: book.description ?? "",
-                                imageUrl: book.imageURL
-                            )
+                            SearchResultBookView(book: book)
                         }
                     } header: {
                         HStack {

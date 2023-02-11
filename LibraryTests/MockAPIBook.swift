@@ -9,7 +9,7 @@ import Foundation
 
 @testable import Library
 
-struct MockAPIBook: APIBook {
+struct MockAPIBook: APIBook, Equatable {
     var id: String
     var url: URL
     var title: String
