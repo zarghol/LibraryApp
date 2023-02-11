@@ -86,7 +86,8 @@ struct SearchView: View {
                     bookIdentifier: book.id,
                     title: book.title,
                     description: book.description ?? "",
-                    author: book.authors.first ?? ""
+                    author: book.authors.first ?? "",
+                    shouldDismissOnDelete: false
                 )
             }
         }

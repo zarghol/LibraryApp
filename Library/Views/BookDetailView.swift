@@ -10,6 +10,17 @@ import SwiftUI
 enum ImageDefinition {
     case distantUrl(URL)
     case local(Data)
+
+    func url(bookIdentifier: String) -> URL {
+        switch self {
+        case .distantUrl(let url):
+            return url
+        case .local(let data):
+            let url = FileManager.default.temporaryDirectory.appending(path: bookIdentifier)
+            try? data.write(to: url)
+            return url
+        }
+    }
 }
 
 struct BookDetailView: View {
@@ -19,9 +30,24 @@ struct BookDetailView: View {
     let description: String
     let author: String
 
+    let shouldDismissOnDelete: Bool
+
     @Environment(\.dismiss) var dismiss
 
-    @StateObject var favoritesStore = FavoritesStore()
+    @StateObject var favoritesStore: FavoritesStore
+    @State private var isBookmarked: Bool
+
+    init(image: ImageDefinition, bookIdentifier: String, title: String, description: String, author: String, shouldDismissOnDelete: Bool) {
+        self.image = image
+        self.bookIdentifier = bookIdentifier
+        self.title = title
+        self.description = description
+        self.author = author
+        self.shouldDismissOnDelete = shouldDismissOnDelete
+        let favoriteStore = FavoritesStore()
+        self._favoritesStore = StateObject(wrappedValue: favoriteStore)
+        self._isBookmarked = State(initialValue: favoriteStore.isFavorite(bookIdentifier: bookIdentifier))
+    }
 
     @ViewBuilder
     var imageView: some View {
@@ -68,16 +94,32 @@ struct BookDetailView: View {
             ToolbarItem(placement: .primaryAction) {
                 Button {
                     do {
-                        try favoritesStore.removeFavorite(bookIdentifier: bookIdentifier)
-                        dismiss()
-
+                        if isBookmarked {
+                            try favoritesStore.removeFavorite(bookIdentifier: bookIdentifier)
+                            isBookmarked = false
+                            if shouldDismissOnDelete {
+                                dismiss()
+                            }
+                        } else {
+                            Task {
+                                try await favoritesStore.addFavorite(
+                                    book: LocalAPIBook(
+                                        id: bookIdentifier,
+                                        title: title,
+                                        authors: [author],
+                                        description: description,
+                                        imageURL: image.url(bookIdentifier: bookIdentifier)
+                                    )
+                                )
+                                isBookmarked = true
+                            }
+                        }
                     } catch {
                         print("error : \(error)")
                     }
                 } label: {
-                    Image(systemName: "bookmark.slash.fill")
+                    Image(systemName: isBookmarked ? "bookmark.slash.fill" : "bookmark.fill")
                 }
-
             }
         }
         .navigationBarTitleDisplayMode(.inline)
@@ -91,7 +133,8 @@ struct BookDetailView_Previews: PreviewProvider {
             bookIdentifier: "",
             title: "",
             description: "",
-            author: ""
+            author: "",
+            shouldDismissOnDelete: false
         )
     }
 }

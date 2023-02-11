@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol APIBook: Sendable {
+protocol APIBook: Sendable, Hashable {
     var id: String { get }
     var url: URL { get }
     var title: String { get }
@@ -32,5 +32,30 @@ struct AnyAPIBook: APIBook, Sendable, Hashable {
 
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
+    }
+}
+
+struct LocalAPIBook: APIBook, Sendable {
+    let id: String
+    var url: URL { URL(string: "https://")! }
+    let title: String
+    let authors: [String]
+    let description: String?
+    let imageURL: URL
+}
+
+extension LocalAPIBook {
+    init(book: Book) {
+        self.id = book.identifier!
+        self.title = book.title ?? ""
+        self.authors = [book.author].compactMap { $0 }
+        self.description = book.description
+        if let data = book.picture {
+            let url = FileManager.default.temporaryDirectory.appending(path: book.identifier!)
+            try? data.write(to: url)
+            self.imageURL = url
+        } else {
+            self.imageURL = URL(string: "https://")!
+        }
     }
 }

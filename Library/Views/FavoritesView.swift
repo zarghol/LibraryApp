@@ -51,7 +51,8 @@ struct FavoritesView: View {
                     bookIdentifier: book.identifier!,
                     title: book.title ?? "",
                     description: book.desc ?? "",
-                    author: book.author ?? ""
+                    author: book.author ?? "",
+                    shouldDismissOnDelete: true
                 )
             }
         }
