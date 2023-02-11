@@ -18,7 +18,7 @@ struct FavoritesView: View {
         animation: .default
     )
     private var books: FetchedResults<Book>
-    
+
     var body: some View {
         if books.isEmpty {
             OnBoardingView()
@@ -28,7 +28,9 @@ struct FavoritesView: View {
                 LazyVGrid(columns: [GridItem(), GridItem()]) {
                     Section {
                         ForEach(books) { book in
-                            FavoritesBookView(book: book)
+                            NavigationLink(value: book) {
+                                FavoritesBookView(book: book)
+                            }
                         }
                     }
                 }
@@ -42,6 +44,15 @@ struct FavoritesView: View {
                     Label("Filters", systemImage: "line.3.horizontal.decrease")
                         .labelStyle(.iconOnly)
                 }
+            }
+            .navigationDestination(for: Book.self) { book in
+                BookDetailView(
+                    image: .local(book.picture!),
+                    bookIdentifier: book.identifier!,
+                    title: book.title ?? "",
+                    description: book.desc ?? "",
+                    author: book.author ?? ""
+                )
             }
         }
     }

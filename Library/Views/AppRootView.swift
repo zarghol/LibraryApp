@@ -11,7 +11,7 @@ struct AppRootView: View {
     @StateObject private var searchEngine = SearchEngine()
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             HomeView()
                 .navigationTitle(Text("Library"))
                 .searchable(text: $searchEngine.currentSearch, tokens: searchEngine.tokenBinding) { token in
