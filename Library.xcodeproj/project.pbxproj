@@ -35,6 +35,7 @@
 		84459F492997F9EE009A9126 /* AnyAPIBook.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84459F482997F9EE009A9126 /* AnyAPIBook.swift */; };
 		84459F4B2997FA01009A9126 /* LocalAPIBook.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84459F4A2997FA01009A9126 /* LocalAPIBook.swift */; };
 		84459F522997FC33009A9126 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 84459F542997FC33009A9126 /* Localizable.strings */; };
+		84459F5729980180009A9126 /* ErrorStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84459F5629980180009A9126 /* ErrorStore.swift */; };
 		846B4A9629941ABA0055DA34 /* LibraryApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846B4A9529941ABA0055DA34 /* LibraryApp.swift */; };
 		846B4A9A29941ABB0055DA34 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 846B4A9929941ABB0055DA34 /* Assets.xcassets */; };
 		846B4A9D29941ABC0055DA34 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 846B4A9C29941ABC0055DA34 /* Preview Assets.xcassets */; };
@@ -92,6 +93,7 @@
 		84459F4A2997FA01009A9126 /* LocalAPIBook.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAPIBook.swift; sourceTree = "<group>"; };
 		84459F532997FC33009A9126 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		84459F552997FC37009A9126 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
+		84459F5629980180009A9126 /* ErrorStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorStore.swift; sourceTree = "<group>"; };
 		846B4A9229941ABA0055DA34 /* Library.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Library.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		846B4A9529941ABA0055DA34 /* LibraryApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryApp.swift; sourceTree = "<group>"; };
 		846B4A9929941ABB0055DA34 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -274,6 +276,7 @@
 				84459F542997FC33009A9126 /* Localizable.strings */,
 				846B4AB929963FD60055DA34 /* SearchEngine.swift */,
 				84459F362997B8E6009A9126 /* FavoritesStore.swift */,
+				84459F5629980180009A9126 /* ErrorStore.swift */,
 				84459F4F2997FAD6009A9126 /* Database */,
 				84459F4C2997FA32009A9126 /* Domain */,
 				84459F3C2997EDFB009A9126 /* Entities */,
@@ -452,6 +455,7 @@
 				84459F3E2997EE14009A9126 /* Search+CoreDataClass.swift in Sources */,
 				846B4AB12995935C0055DA34 /* FavoritesBookView.swift in Sources */,
 				846B4AAD2995571D0055DA34 /* HomeView.swift in Sources */,
+				84459F5729980180009A9126 /* ErrorStore.swift in Sources */,
 				84459F402997EE26009A9126 /* Search+CoreDataProperties.swift in Sources */,
 				846B4ABA29963FD60055DA34 /* SearchEngine.swift in Sources */,
 				846B4AB3299596D90055DA34 /* OnBoardingView.swift in Sources */,

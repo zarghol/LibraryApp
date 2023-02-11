@@ -10,6 +10,7 @@ import CoreData
 
 struct SearchView: View {
     @EnvironmentObject var searchEngine: SearchEngine
+    @EnvironmentObject var errorStore: ErrorStore
 
     @FetchRequest
     private var suggestions: FetchedResults<Search>
@@ -39,7 +40,15 @@ struct SearchView: View {
                     Section {
                         ForEach(suggestions) { suggestion in
                             Button(action: {
-                                searchEngine.apply(suggestion)
+                                withAnimation {
+                                    _ = Task { @MainActor in
+                                        do {
+                                            try await searchEngine.apply(suggestion)
+                                        } catch {
+                                            errorStore.catchError(error: error)
+                                        }
+                                    }
+                                }
                             }, label: {
                                 VStack(alignment: .leading) {
                                     if let query = suggestion.query {

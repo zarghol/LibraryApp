@@ -44,28 +44,20 @@ final class SearchEngine: ObservableObject {
     ///
     /// The method start an asynchronous process, that will be ended by updating the ``results``.
     /// - Parameter isFromSuggestion: if `true`, doesn't add the query to the suggestions, in order to not duplicates suggestions.
-    func search(isFromSuggestion: Bool) {
-        Task(priority: .userInitiated) { @MainActor [weak self] in
-            guard let self else { return }
-            do {
-                self.results = try await self.searchService.search(query: self.currentSearch, author: self.author?.author)
-                if !isFromSuggestion {
-                    try self.suggestionsService.createSuggestion(query: self.currentSearch, author: self.author?.author)
-                }
-
-            } catch {
-                // TODO: send to a logger / firebase in order to debug if needed.
-                print("error : \(error)")
-            }
+    func search(isFromSuggestion: Bool) async throws {
+        results = try await searchService.search(query: currentSearch, author: author?.author)
+        if !isFromSuggestion {
+            try suggestionsService.createSuggestion(query: currentSearch, author: author?.author)
         }
     }
 
     /// Replace the current query by a suggestion and immediately search it.
-    func apply(_ suggestion: Search) {
-        self.currentSearch = suggestion.query
-        self.author = suggestion.author.map(AuthorToken.init(author:))
+    @MainActor
+    func apply(_ suggestion: Search) async throws {
+        currentSearch = suggestion.query
+        author = suggestion.author.map(AuthorToken.init(author:))
 
-        self.search(isFromSuggestion: true)
+        try await search(isFromSuggestion: true)
     }
 
     /// Invalidate the current content of ``results``. Useful when after a search, the result is displayed and we want to do another search. The results is no longer pertinent and thus, removed.
