@@ -6,15 +6,15 @@
 //
 
 import SwiftUI
-
+import Dependencies
 @main
 struct LibraryApp: App {
-    let persistenceController = PersistenceController.shared
+    @Dependency(\.persistence) var persistence
 
     var body: some Scene {
         WindowGroup {
             AppRootView()
-                .environment(\.managedObjectContext, persistenceController.container.viewContext)
+                .environment(\.managedObjectContext, persistence.container.viewContext)
         }
     }
 }
