@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol APIBook {
+protocol APIBook: Sendable {
     var id: String { get }
     var url: URL { get }
     var title: String { get }
