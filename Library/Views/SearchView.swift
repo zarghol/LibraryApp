@@ -57,7 +57,21 @@ struct SearchView: View {
                             })
                         }
                     } header: {
-                        Text("Suggestions")
+                        HStack {
+                            Text("Suggestions")
+
+                            Spacer()
+
+                            // TODO: in a futur version
+                            if false {
+                                Button("Clear") {
+                                    withAnimation {
+                                        searchEngine.clearSuggestions()
+                                    }
+                                }
+                                .font(.caption)
+                            }
+                        }
                     }
                 }
             }

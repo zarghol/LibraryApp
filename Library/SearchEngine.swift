@@ -64,4 +64,12 @@ final class SearchEngine: ObservableObject {
     func invalidateResults() {
         results = []
     }
+
+    func clearSuggestions() {
+        do {
+            try suggestionsService.removeAll()
+        } catch {
+            print("error : \(error)")
+        }
+    }
 }

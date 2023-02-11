@@ -10,12 +10,18 @@ import Dependencies
 
 protocol SuggestionsService: Sendable {
     func createSuggestion(query: String, author: String?) throws
+
+    func removeAll() throws
 }
 
 // MARK: - Dependency Definition
 
 struct MockSuggestionsService: SuggestionsService {
     func createSuggestion(query: String, author: String?) throws {
+        // Nothing to do
+    }
+
+    func removeAll() throws {
         // Nothing to do
     }
 }

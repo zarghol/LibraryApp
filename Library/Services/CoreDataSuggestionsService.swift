@@ -20,4 +20,9 @@ final class CoreDataSuggestionsService: SuggestionsService {
 
         try context.save()
     }
+
+    func removeAll() throws {
+        let deleteRequest = NSBatchDeleteRequest.init(fetchRequest: Search.fetchRequest())
+        try context.persistentStoreCoordinator?.execute(deleteRequest, with: context)
+    }
 }
