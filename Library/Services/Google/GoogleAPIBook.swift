@@ -50,3 +50,13 @@ extension GoogleAPIBook: Decodable {
 
     }
 }
+
+extension GoogleAPIBook: Hashable {
+    static func == (lhs: GoogleAPIBook, rhs: GoogleAPIBook) -> Bool {
+        return lhs.id == rhs.id
+    }
+
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(self.id)
+    }
+}

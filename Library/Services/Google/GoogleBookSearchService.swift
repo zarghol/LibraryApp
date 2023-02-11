@@ -40,7 +40,10 @@ struct GoogleBookSearchService: BookSearchService {
 
         let response = try decoder.decode(GoogleBookSearchResponse.self, from: data)
 
-        return response.items
+        // remove duplicates
+        let set = Set(response.items)
+
+        return Array(set)
     }
 }
 
